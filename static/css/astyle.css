@@ -1,0 +1,229 @@
+#ani{
+    margin-right: 15px;
+    text-decoration: none;
+    font-weight: bold;
+}
+nav a {
+    margin-right: 15px;
+    text-decoration: none;
+    font-weight: bold;
+}
+.mains{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+.postad{
+    width: 50%;
+    margin: auto;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+label {
+    font-weight: bold;
+}
+input, textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+body {
+    background-color: #f1f2f4;
+    color: #333;
+    font-family: Arial, sans-serif;
+}
+.cat-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 5px;
+}
+.cat-profile {
+    width: 25%;
+    background-color: rgb(249, 249, 251);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgb(25, 52, 146);
+}
+.cat-img img {
+    width: 100%;
+    border-radius: 8px;
+    height: auto;
+}
+.cat-img {
+    position: relative;
+}
+header{
+    text-align: center;
+    padding: 10px;
+    background-color: #ffcc80;
+}
+.centre{
+    font-size: 2rem;
+}
+main {
+    text-align: center;
+    margin: 20px;
+}
+.posted-date {
+    display: block;
+    font-size: 0.8rem;
+    color: #777;
+}
+.adopt-btn {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #ff5733;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.adopt-btn:hover {
+    background-color: #e04e27;
+}
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #ffcc80;
+}
+.dog-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 5px;
+}
+.dog-profile {
+    background-color: rgb(255, 255, 255);
+    padding: 15px;
+    border-radius: 10px;
+    width: 25%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.dog-img {
+    position: relative;
+}
+.dog-img img {
+    width: 100%;
+    height: auto;
+    border-radius:8px;
+}
+.posted-date {
+    position: sticky;
+    bottom: 10px; /* Must specify this */
+    background: rgba(235, 228, 228, 0.7);
+    padding: 2px;
+}
+
+.bg{
+    background-image: url("/static/img/bg.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height:100vh;
+    width: 100%;
+    background-position:center;
+    position:sticky;
+}
+.logo img {
+    position: absolute;
+    top: 1px;  /* Adjust vertical positioning */
+    left: 3px; /* Adjust horizontal positioning */
+    width: 250px; 
+    height:90px;
+}
+h1{
+    font-family:"cursive",Georgia;
+    color:rgb(1, 24, 32);
+    padding-left:10%;
+    padding-top: 7%;
+    text-align: left;
+    font-size: 40px ;
+    text-decoration:underline;
+    padding-left:5%;;
+}
+#navbars{
+    text-align:right;
+    background:linear-gradient(to right,rgb(244, 246, 245),rgb(179, 218, 218));
+    padding: 0.5rem;
+}
+.navig{
+    display: inline-block;
+    padding-right:8%;
+    font-size: 18px; 
+}
+nav a:hover {
+    background-color: #bbd0f4;
+}
+.animal {
+    display:inline-table;
+    justify-content: center;
+    background: white;
+    padding:25px;
+    border-radius: 10px;
+    width: 45%;
+    height: auto;
+    box-shadow: 0 4px 8px rgba(12, 1, 1, 0.2);
+    position: sticky;
+}
+.greet {
+    font-family: Arial, sans-serif;
+    text-align: left;
+}
+.form-container {
+    width: 300px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #4c4646;
+}
+input {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 5px;
+}
+button {
+    background-color: rgb(21, 5, 75);
+    color: white;
+    padding: 10px;
+    border: none;
+    margin-left: 5%;
+    -webkit-text-fill-color:white;
+}
+form {
+    max-width: 300px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #6b6464;
+    border-radius: 5px;
+    text-align: center;
+}
+.error {
+    font-size: 14px;
+    color:red;
+    text-align:centre;
+
+}
+h2{
+    text-align: center;
+    text-shadow: #6b6464;
+    text-decoration: solid;
+    text-transform: uppercase;
+    transition: all;
+}
+.greet h2{
+    text-align: left;
+    text-indent: 0%;
+    padding-left: 5%;
+    padding-bottom: 5px;
+}
+.abt{
+    justify-content:center;
+    background-color: aqua;
+    padding-top: 10%;
+    padding-left: 10%;
+    padding-bottom: 10%;
+    padding-right: 10%;
+}

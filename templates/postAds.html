@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Pet Ad</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h2>Post an Adoption Ad</h2>
+    <form class="postad" action="/post_ad" method="POST" enctype="multipart/form-data">
+        <label>Pet Type:</label>
+        <select name="pet_type">
+            <option value="dog">Dog</option>
+            <option value="cat">Cat</option>
+        </select><br>
+        <label>Pet Name:</label><input type="text" name="name" required><br>
+        <label>Age:</label><input type="number" name="age" required><br>
+        <label>Description:</label><textarea name="description" required></textarea><br>
+        <label>Upload Image:</label><input type="file" name="image" accept="image/*" required><br>
+    <input type="submit" value="Post Ad">
+    </form>
+</body>
+</html>
+{% endblock %}
