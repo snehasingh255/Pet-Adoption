@@ -1,0 +1,116 @@
+{% extends "layout.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard - Pet Adoption</title>
+    <link href="{{ url_for('static', filename='astyle.css') }}" rel="stylesheet" type=css>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .dashboard-header {
+            background-color: #343a40;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-header">
+        <h2>Welcome, Admin</h2>
+        <p>Manage pet adoption system efficiently</p>
+    </div>
+
+    <div class="container mt-4">
+        <div class="row">
+
+            <!-- Add Pet -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Add Pet for Adoption</h5>
+                        <p class="card-text">Add a new cat or dog to the adoption list.</p>
+                        <a href="/admin/add_pet" class="btn btn-primary">Add Pet</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delete Pet -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Delete Pet</h5>
+                        <p class="card-text">Remove a pet from the adoption list.</p>
+                        <a href="/admin/delete_pet" class="btn btn-danger">Delete Pet</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Update Pet Info -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Update Pet Info</h5>
+                        <p class="card-text">Change status or details of a listed pet.</p>
+                        <a href="/admin/update_pet" class="btn btn-warning">Update Info</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Adoption Requests -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Adoption Requests</h5>
+                        <p class="card-text">View and manage user requests to adopt pets.</p>
+                        <a href="/admin/adoption_requests" class="btn btn-info">View Requests</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Pet Submission -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">User Pet Submissions</h5>
+                        <p class="card-text">Review pets submitted by users for adoption.</p>
+                        <a href="/admin/user_pet_requests" class="btn btn-secondary">Review Submissions</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Donations -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Donations</h5>
+                        <p class="card-text">Track donations received from users.</p>
+                        <a href="/admin/donations" class="btn btn-success">View Donations</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Messages -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">User Messages</h5>
+                        <p class="card-text">Read messages or feedback sent by users.</p>
+                        <a href="/admin/messages" class="btn btn-dark">View Messages</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
+{% endblock %}
