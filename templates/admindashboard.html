@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Admin Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
             background-color: #f8f9fa;
@@ -14,6 +16,7 @@
         }
         .card {
             transition: transform 0.2s ease-in-out;
+            width: 380px;;
         }
         .card:hover {
             transform: scale(1.02);
@@ -29,52 +32,236 @@
         .btn-primary:hover {
             background-color: #0056b3;
         }
+        .stats-box {
+            background-color: #ffffff;
+            border-radius: 5px;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        }
+        
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container-fluid">
         <div class="dashboard-header text-center">
             <h2 class="fw-bold">Admin Dashboard</h2>
             <p class="text-muted">Manage pets, users, donations, and messages</p>
         </div>
 
-        <div class="row g-4">
-            <div class="col-md-6 col-lg-4">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title">Manage Pets</h5>
-                        <p class="card-text">Add, update, or delete pet listings.</p>
-                        <a href="/managepets" class="btn btn-primary">Go</a>
+        <div class="row">
+            <!-- Left Column: Cards -->
+            <div class="col-lg-4">
+                <div class="row g-4">
+                    <div class="col-12">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">Manage Pets</h5>
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#addPetModal">AddPet</button>
+                                    <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#updatePetModal">Update</button>
+                                    <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deletePetModal">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">User Requests</h5>
+                                <p class="card-text">View and respond to adoption requests.</p>
+                                <a href="/requests" class="btn btn-primary">Go</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Donations</h5>
+                                        <p class="card-text">Track and manage donation records.</p>
+                                        <a href="/donations" class="btn btn-primary">Go</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Messages</h5>
+                                        <p class="card-text">Read and reply to user messages.</p>
+                                        <a href="/messages" class="btn btn-primary">Go</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Right Column: Stats & Charts -->
+            <div class="col-lg-8">
+                <div class="stats-box mb-4">
+                    <div class="row text-center">
+                        <div class="col-md-4">
+                            <h6>Adoptions Completed</h6>
+                            <p class="fw-bold text-primary">{{ adoption_count }}</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h6>Available Pets</h6>
+                            <p class="fw-bold text-success">{{ available_pets }}</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h6>Adoption Requests</h6>
+                            <p class="fw-bold text-warning">{{ adoption_requests }}</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h6>Donation Amount</h6>
+                            <p class="fw-bold text-danger">₹{{ donation_total }}</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h6>Registered Users</h6>
+                            <p class="fw-bold text-info">{{ user_count }}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title">User Requests</h5>
-                        <p class="card-text">View and respond to adoption requests.</p>
-                        <a href="/requests" class="btn btn-primary">Go</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title">Donations</h5>
-                        <p class="card-text">Track and manage donation records.</p>
-                        <a href="/donations" class="btn btn-primary">Go</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title">Messages</h5>
-                        <p class="card-text">Read and reply to user messages.</p>
-                        <a href="/messages" class="btn btn-primary">Go</a>
-                    </div>
+                <div class="stats-box">
+                    <h4 class="mb-3">Adoption Trends</h4>
+                     <canvas id="adoptionChart" style="max-height: 200px;"></canvas>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        const ctx = document.getElementById('adoptionChart').getContext('2d');
+        const adoptionChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Adoptions',
+                    data: [12, 19, 14, 17, 22, 25],
+                    backgroundColor: '#007bff'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+    <!-- Add Pet Modal -->
+<div class="modal fade" id="addPetModal" tabindex="-1" aria-labelledby="addPetModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form action="/addpet" method="POST" enctype="multipart/form-data" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addPetModalLabel">Add Pet</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-2">
+          <label for="pet_name" class="form-label">Pet Name</label>
+          <input type="text" class="form-control" name="pet_name" required>
+        </div>
+        <div class="mb-2">
+          <label for="pet_age" class="form-label">Pet Age</label>
+          <input type="number" class="form-control" name="pet_age" required>
+        </div>
+        <div class="mb-2">
+          <label for="pet_type" class="form-label">Pet Type</label>
+          <select class="form-select" name="pet_type" required>
+            <option value="Dog">Dog</option>
+            <option value="Cat">Cat</option>
+          </select>
+        </div>
+        <div class="mb-2">
+          <label for="pet_breed" class="form-label">Breed</label>
+          <input type="text" class="form-control" name="pet_breed" required>
+        </div>
+        <div class="mb-2">
+          <label for="pet_weight" class="form-label">Weight (kg)</label>
+          <input type="number" class="form-control" name="pet_weight" required>
+        </div>
+        <div class="mb-2">
+          <label for="pet_image" class="form-label">Upload Image</label>
+          <input type="file" class="form-control" name="pet_image" accept="image/*" required>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Add Pet</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Update Pet Modal -->
+<div class="modal fade" id="updatePetModal" tabindex="-1" aria-labelledby="updatePetModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <form action="/updatepet" method="POST" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updatePetModalLabel">Update Pet</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="pet_id" class="form-label">Select Pet</label>
+          <select class="form-select" name="pet_id" required>
+            {% for pet in pets %}
+              <option value="{{ pet.id }}">{{ pet.name }} ({{ pet.type }})</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-2">
+            <label class="form-label">New Name</label>
+            <input type="text" class="form-control" name="new_name">
+          </div>
+          <div class="col-md-6 mb-2">
+            <label class="form-label">New Age</label>
+            <input type="number" class="form-control" name="new_age">
+          </div>
+          <div class="col-md-6 mb-2">
+            <label class="form-label">New Breed</label>
+            <input type="text" class="form-control" name="new_breed">
+          </div>
+          <div class="col-md-6 mb-2">
+            <label class="form-label">New Weight</label>
+            <input type="number" class="form-control" name="new_weight">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-warning">Update Pet</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Delete Pet Modal -->
+<div class="modal fade" id="deletePetModal" tabindex="-1" aria-labelledby="deletePetModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form action="/deletepet" method="POST" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deletePetModalLabel">Delete Pet</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <label for="pet_id" class="form-label">Select Pet to Delete</label>
+        <select class="form-select" name="pet_id" required>
+          {% for pet in pets %}
+            <option value="{{ pet.id }}">{{ pet.name }} ({{ pet.category }})</option>
+          {% endfor %}
+        </select>
+        <p class="text-danger mt-2">This action cannot be undone.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-danger">Delete Pet</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+</body>
 {% endblock %}
