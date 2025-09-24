@@ -1,4 +1,3 @@
-from werkzeug.security import generate_password_hash
 from flask import Flask, render_template, request, session, redirect, url_for,flash
 import mysql.connector
 import subprocess
@@ -6,11 +5,8 @@ import os
 from werkzeug.security import generate_password_hash, check_password_hash
 import db
 
-
-
 app = Flask(__name__)
 
-# MySQL Database Configuration
 db_config = {
     'host': 'localhost',
     'user': 'root',
@@ -18,7 +14,6 @@ db_config = {
     'database': 'petAdoption'
 }
 
-#  Create a database connection
 def get_db_connection():
     return mysql.connector.connect(**db_config)
 
@@ -63,7 +58,7 @@ def login():
         user = db.get_user_by_username(username)
         if user and check_password_hash(user["password"], password):
             session["loggedInUser"] = user["username"]
-            session["role"] = user.get("role", "user")  # Optional: store role
+            session["role"] = user.get("role", "user") 
             flash(f"Welcome back, {username}!", "success")
 
             # Redirect based on role
@@ -77,16 +72,23 @@ def login():
     else:
         return render_template("login.html")
 
-
-
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
         username = request.form["username"]
+        email = request.form["email"]
         password = request.form["password"]
+        confirm_password = request.form["confirm_password"]
+
+        if password != confirm_password:
+            flash("Passwords do not match", "error")
+            return redirect(url_for("register"))
+
         hashed_pw = generate_password_hash(password)
-        db.insert_user(username, hashed_pw)
+        db.insert_user(username, email, hashed_pw)
+        flash("Registration successful! Please log in.", "success")
         return redirect(url_for("login"))
+
     return render_template("register.html")
 
 
@@ -94,6 +96,36 @@ def register():
 def profile():
     return render_template("profile.html")
 
+@app.route('/resetpass', methods=['GET', 'POST'])
+def resetpass():
+    if request.method == 'POST':
+        email = request.form['email']
+        new_password = request.form['new_password']
+        confirm_password = request.form['confirm_password']
+
+        if new_password != confirm_password:
+            flash('Passwords do not match', 'error')
+            return redirect(url_for('resetpass'))
+
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
+        user = cursor.fetchone()
+
+        if user:
+            hashed_pw = generate_password_hash(new_password)
+            cursor.execute("UPDATE users SET password = %s WHERE email = %s", (hashed_pw, email))
+            conn.commit()
+            flash('Password reset successful!', 'message')
+            cursor.close()
+            conn.close()
+            return redirect(url_for('login'))
+        else:
+            flash('Email not found', 'error')
+            cursor.close()
+            conn.close()
+            return redirect(url_for('resetpass'))
+    return render_template("resetpass.html")
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,8 +1,10 @@
+{% extends "layout.html" %}
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login | Pet Adoption</title>
+    <title>Reset Password | PawConnect</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -34,7 +36,7 @@
             color: #333;
         }
 
-        input[type="text"],
+        input[type="email"],
         input[type="password"] {
             width: 100%;
             padding: 12px;
@@ -43,7 +45,6 @@
             border-radius: 6px;
             box-sizing: border-box;
         }
-
 
         button {
             width: 100%;
@@ -61,24 +62,28 @@
             background-color: #4861d3;
         }
 
+        .message {
+            margin-bottom: 10px;
+            color: green;
+        }
+
         .error {
             color: red;
             margin-bottom: 10px;
         }
 
-        .register-link {
+        .back-link {
             margin-top: 15px;
             font-size: 14px;
             font-weight: bold;
-
         }
 
-        .register-link a {
+        .back-link a {
             color: #05173f;
             text-decoration: none;
         }
 
-        .register-link a:hover {
+        .back-link a:hover {
             text-decoration: underline;
         }
     </style>
@@ -86,7 +91,7 @@
 <body>
     <div class="container">
         <img src="{{ url_for('static', filename='img/adoptlogo.jpg') }}" alt="PawConnect Logo" class="logo">
-        <h2>Login to Paw Connect</h2>
+        <h2>Reset Your Password</h2>
 
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
@@ -96,20 +101,17 @@
           {% endif %}
         {% endwith %}
 
-        <form method="POST">
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <button type="submit">Login</button>
-
-            <div class="forgot-password">
-                <p><a href="{{ url_for('resetpass') }}">Forgot Password?</a></p>
-            </div>
-
+        <form method="POST" action="{{ url_for('resetpass') }}">
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="new_password" placeholder="New Password" required>
+            <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+            <button type="submit">Reset Password</button>
         </form>
 
-        <div class="register-link">
-            <p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
+        <div class="back-link">
+           <a href="{{ url_for('login') }}" class="btn btn-secondary w-100 mt-2">BACK TO LOGIN</a>
         </div>
     </div>
 </body>
 </html>
+{% endblock %}

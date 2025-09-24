@@ -11,10 +11,10 @@ db_config = {
 def get_connection():
     return mysql.connector.connect(**db_config)
 
-def insert_user(username, hashed_password,role="user"):
+def insert_user(username,email, hashed_password,role="user"):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO users (username, password, role) VALUES (%s, %s, %s)", (username, hashed_password, role))
+    cursor.execute("INSERT INTO users (username,email, password) VALUES (%s, %s, %s)", (username,email, hashed_password))
     conn.commit()
     cursor.close()
     conn.close()
