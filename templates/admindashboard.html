@@ -2,134 +2,76 @@
 {% block content %}
 <head>
     <meta charset="UTF-8">
-    <title>Admin Dashboard - Pet Adoption</title>
-    <link href="{{ url_for('static', filename='astyle.css') }}" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             background-color: #f8f9fa;
         }
         .dashboard-header {
-            background-color: #343a40;
-            color: white;
-            padding: 20px;
-            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 20px;
         }
         .card {
-            margin-bottom: 20px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            transition: transform 0.2s ease;
+            transition: transform 0.2s ease-in-out;
         }
         .card:hover {
-            transform: scale(1.03);
+            transform: scale(1.02);
         }
-        .btn {
-            width: 100%;
+        .card-title {
+            font-weight: 600;
+            color: #343a40;
         }
-        .dashboard-header {
-            background: linear-gradient(to right, #343a40, #495057);
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
         }
-
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
-    <div class="text-end">
-        <span class="me-2">Logged in as <strong>Admin</strong></span>
-        <a href="/logout" class="btn btn-outline-light btn-sm">Logout</a>
-    </div>
+    <div class="container">
+        <div class="dashboard-header text-center">
+            <h2 class="fw-bold">Admin Dashboard</h2>
+            <p class="text-muted">Manage pets, users, donations, and messages</p>
+        </div>
 
-    <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Manage Pets</li>
-    </ol>
-    </nav>
-
-    <div class="dashboard-header">
-        <h2>Welcome, Admin</h2>
-        <p>Manage pet adoption system efficiently</p>
-    </div>
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-        <div class="alert alert-success">{{ messages[0] }}</div>
-    {% endif %}
-    {% endwith %}
-
-    <div class="container mt-4">
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            <!-- add Pet -->
-            <div class="col-md-4">
-                <div class="card">
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="card shadow-sm">
                     <div class="card-body">
-                        <h5 class="card-title"><i class="fas fa-paw"></i>Add Pet for Adoption</h5>
-                        <p class="card-text">Add a new cat or dog to the adoption list.</p>
-                        <a href="/admin/add_pet" class="btn btn-primary">Add Pet</a>
+                        <h5 class="card-title">Manage Pets</h5>
+                        <p class="card-text">Add, update, or delete pet listings.</p>
+                        <a href="/managepets" class="btn btn-primary">Go</a>
                     </div>
                 </div>
             </div>
-
-            <!-- Delete Pet -->
-            <div class="col-md-4">
-                <div class="card">
+            <div class="col-md-6 col-lg-4">
+                <div class="card shadow-sm">
                     <div class="card-body">
-                        <h5 class="card-title">Delete Pet</h5>
-                        <p class="card-text">Remove a pet from the adoption list.</p>
-                        <a href="/admin/delete_pet" class="btn btn-danger">Delete Pet</a>
+                        <h5 class="card-title">User Requests</h5>
+                        <p class="card-text">View and respond to adoption requests.</p>
+                        <a href="/requests" class="btn btn-primary">Go</a>
                     </div>
                 </div>
             </div>
-
-            <!-- Update Pet Info -->
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Update Pet Info</h5>
-                        <p class="card-text">Change status or details of a listed pet.</p>
-                        <a href="/admin/update_pet" class="btn btn-warning">Update Info</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Adoption Requests -->
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Adoption Requests</h5>
-                        <p class="card-text">View and manage user requests to adopt pets.</p>
-                        <a href="/admin/adoption_requests" class="btn btn-info">View Requests</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- User Pet Submission -->
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">User Pet Submissions</h5>
-                        <p class="card-text">Review pets submitted by users for adoption.</p>
-                        <a href="/admin/user_pet_requests" class="btn btn-secondary">Review Submissions</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Donations -->
-            <div class="col-md-4">
-                <div class="card">
+            <div class="col-md-6 col-lg-4">
+                <div class="card shadow-sm">
                     <div class="card-body">
                         <h5 class="card-title">Donations</h5>
-                        <p class="card-text">Track donations received from users.</p>
-                        <a href="/admin/donations" class="btn btn-success">View Donations</a>
+                        <p class="card-text">Track and manage donation records.</p>
+                        <a href="/donations" class="btn btn-primary">Go</a>
                     </div>
                 </div>
             </div>
-
-            <!-- Messages -->
-            <div class="col-md-4">
-                <div class="card">
+            <div class="col-md-6 col-lg-4">
+                <div class="card shadow-sm">
                     <div class="card-body">
-                        <h5 class="card-title">User Messages</h5>
-                        <p class="card-text">Read messages or feedback sent by users.</p>
-                        <a href="/admin/messages" class="btn btn-dark">View Messages</a>
+                        <h5 class="card-title">Messages</h5>
+                        <p class="card-text">Read and reply to user messages.</p>
+                        <a href="/messages" class="btn btn-primary">Go</a>
                     </div>
                 </div>
             </div>
