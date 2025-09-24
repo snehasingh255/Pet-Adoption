@@ -228,17 +228,21 @@ h2{
     padding-right: 10%;
 }
 
-.forgot-password {
-    margin-top: 10px;
-    font-size: 14px;
+.bg-register{
+    background: #ffffff;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 350px;
+}
+input[type="email"],
+input[type="password"] {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        box-sizing: border-box;
 }
 
-.forgot-password a {
-    color: #05173f;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.forgot-password a:hover {
-    text-decoration: underline;
-}
