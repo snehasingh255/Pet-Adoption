@@ -1,11 +1,10 @@
 {% extends "layout.html" %}
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Admin Dashboard - Pet Adoption</title>
-    <link href="{{ url_for('static', filename='astyle.css') }}" rel="stylesheet" type=css>
+    <link href="{{ url_for('static', filename='astyle.css') }}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
             background-color: #f8f9fa;
@@ -18,23 +17,51 @@
         }
         .card {
             margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
         }
+        .card:hover {
+            transform: scale(1.03);
+        }
+        .btn {
+            width: 100%;
+        }
+        .dashboard-header {
+            background: linear-gradient(to right, #343a40, #495057);
+        }
+
     </style>
 </head>
 <body>
+    <div class="text-end">
+        <span class="me-2">Logged in as <strong>Admin</strong></span>
+        <a href="/logout" class="btn btn-outline-light btn-sm">Logout</a>
+    </div>
+
+    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Manage Pets</li>
+    </ol>
+    </nav>
+
     <div class="dashboard-header">
         <h2>Welcome, Admin</h2>
         <p>Manage pet adoption system efficiently</p>
     </div>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="alert alert-success">{{ messages[0] }}</div>
+    {% endif %}
+    {% endwith %}
 
     <div class="container mt-4">
-        <div class="row">
-
-            <!-- Add Pet -->
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <!-- add Pet -->
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Add Pet for Adoption</h5>
+                        <h5 class="card-title"><i class="fas fa-paw"></i>Add Pet for Adoption</h5>
                         <p class="card-text">Add a new cat or dog to the adoption list.</p>
                         <a href="/admin/add_pet" class="btn btn-primary">Add Pet</a>
                     </div>
@@ -106,10 +133,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
-
-</body>
-</html>
 {% endblock %}
