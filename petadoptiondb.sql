@@ -8,15 +8,14 @@ CREATE TABLE users (
 );
 ALTER TABLE users ADD COLUMN role VARCHAR(20) DEFAULT 'user';
 
-INSERT INTO users (username, password)
-VALUES ('sneha_admin', 'singhsneha25');
-Select * from users;
-
-INSERT INTO users (username, password)
-VALUES ('bhagyashree', 'sangvebhagya13');
+INSERT INTO users (username, password, role)
+VALUES ('sneha', 'scrypt:32768:8:1$2XnVq8iKYyIkXQrG$e5b0cc5b2dfbd3175e34fdb1d0344e967f76184fe53ea912591a1a207f89d006a1828156cdfe0f5869ef301aad7f3b461912d871f7ea7aaf7f94a3536cebf4ee', 'admin');
 
 INSERT INTO users (username, password, role)
-VALUES ('soumya', 'sinhasoumya71', 'user');
+VALUES ('bhagyashree', 'scrypt:32768:8:1$ODyqZktqoC60aLWG$c32a2c8575ea499f3cacdbdf2e34aaaa2978ce21266acba638cc2a93161d1053184c8ee3a05b5191850780241e006da184335e1158716b4766efb8bea8bfc762', 'user');
+
+INSERT INTO users (username,password,role)
+VALUES ('soumya','scrypt:32768:8:1$ODyqZktqoC60aLWG$c32a2c8575ea499f3cacdbdf2e34aaaa2978ce21266acba638cc2a93161d1053184c8ee3a05b5191850780241e006da184335e1158716b4766efb8bea8bfc762','user');
 
 CREATE TABLE pets (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -67,3 +66,6 @@ ADD FOREIGN KEY (user_id) REFERENCES users(id);
 
 ALTER TABLE messages
 ADD FOREIGN KEY (user_id) REFERENCES users(id);
+
+SELECT username, password FROM users;
+

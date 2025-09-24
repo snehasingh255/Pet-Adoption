@@ -1,74 +1,42 @@
 {% extends "layout.html" %}
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">   <!--supports almost all characters from different languages-->
-        <meta name="viewport" content="width=device-width, initial scale=1.0">  <!--webpg matches to the screen of the device.-->
-        <link rel="stylesheet" type=css href="{{ url_for('static', filename='astyle.css') }}">
-        <title>ADOPT A BUDDY!</title>
-    </head>
-    <body>
-        <section class="bg">
-            <div id="navbars">
-                <nav>
-                    <div class="logo">
-                        <img src="{{ url_for('static', filename='img/adoptlogo.jpg') }}" alt="Adopt A Buddy logo">
-                    </div>
-                    <ul>
-                        <li class="navig"><a href="{{url_for('home')}}">Home</a></li>
-                        <li class="navig"><a href="{{url_for('about')}}">About</a></li>
-                        <a id="postAdLink" href="post.html" style="display: none;">Post Ad</a>
-                        <li class="navig"><a href="profile.html">Profile</a></li>
-                        <li class="navig"><a href="#" onclick="runpy()">Login</a></li>  <!-- Link to Flask route -->
-                    </ul>
-                </nav>
+<section class="bg">
+    <div id="navbars">
+        <nav>
+            <div class="logo">
+                <img src="{{ url_for('static', filename='img/adoptlogo.jpg') }}" alt="Adopt A Buddy logo">
             </div>
-            <div class="greet">
-                <h1>ADOPT A BUDDY!!</h1>
-                <h2>You can make a difference in their lives.<br><br>
-                <b>OPEN YOUR HEART AND YOUR HOME.</b><br>
-                For a pet who needs help,<br>
-                they would show their appreciation<br>
-                to you for the rest of their lives.</h2>
-                <button id="ani"><a  href="#animals">Let's Adopt</a></button>
-            </div>
-        </section>
-        <section id="animals">
-            <div>
-            <h2>
-                <b>READY TO WELCOME A NEW BUDDY HOME ?</b><br><br> 
-                   Adopt a new pet.
-            </h2>
-            <div class="animal">
-                <img src="static/img/cat.jpg" alt="Cat" onclick="window.location.href='{{ url_for('cat') }}';">
-                <p>Smart Cats</p>
-            </div>
-            <div class="animal">
-                <img src="static/img/dog.jpg" alt="Dog" onclick="window.location.href='{{ url_for('dog') }}';">
-                <p>Loyal Dogs</p>
-            </div>
-            </div>
-        </section>
-        <script>
-            function runpy(){
-                fetch('/login') //callsflaskroute
-                .then(response => console.log("Login Window Triggered"))
-                .catch(error => console.error('Error:', error));
-            }
-          //This JavaScript function sends a request to Flask, which then executes loginpage.py.
-        </script>
-         <script>
-        // Check if user is logged in
-        const isLoggedIn = localStorage.getItem("loggedInUser"); 
-        if (isLoggedIn) {
-            document.getElementById("postAdLink").style.display = "inline-block";
-        }
-        </script>
-        <footer>
-            <p>&copy; 2025 Adopt A Buddy | Bringing pets to loving homes.</p>
-        </footer>
-    </body>
-</html>
-{% endblock %}
+            <ul>
+                <li class="navig"><a href="{{ url_for('home') }}">Home</a></li>
+                <li class="navig"><a href="{{ url_for('about') }}">About</a></li>
+                <li class="navig"><a href="{{ url_for('profile') }}">Profile</a></li>
+                <li class="navig"><a href="{{ url_for('login') }}">Login</a></li>
+            </ul>
+        </nav>
+    </div>
 
+    <div class="greet">
+        <h1>ADOPT A BUDDY!!</h1>
+        <h2>
+            You can make a difference in their lives.<br><br>
+            <b>OPEN YOUR HEART AND YOUR HOME.</b><br>
+            For a pet who needs help,<br>
+            they would show their appreciation<br>
+            to you for the rest of their lives.
+        </h2>
+        <button id="ani"><a href="#animals">Let's Adopt</a></button>
+    </div>
+</section>
+
+<section id="animals">
+    <h2><b>READY TO WELCOME A NEW BUDDY HOME?</b><br><br>Adopt a new pet.</h2>
+    <div class="animal">
+        <img src="{{ url_for('static', filename='img/cat.jpg') }}" alt="Cat" onclick="window.location.href='{{ url_for('cat')}}';">
+        <p>Smart Cats</p>
+    </div>
+    <div class="animal">
+        <img src="{{ url_for('static', filename='img/dog.jpg') }}" alt="Dog" onclick="window.location.href='{{ url_for('dog') }}';">
+        <p>Loyal Dogs</p>
+    </div>
+</section>
+{% endblock %}

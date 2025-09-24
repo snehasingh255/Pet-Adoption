@@ -1,4 +1,5 @@
 import mysql.connector
+from werkzeug.security import generate_password_hash
 
 db_config = {
     'host': 'localhost',
@@ -10,19 +11,10 @@ db_config = {
 def get_connection():
     return mysql.connector.connect(**db_config)
 
-def get_user_by_username(username):
-    conn = get_connection()
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM users WHERE username = %s", (username,))
-    user = cursor.fetchone()
-    cursor.close()
-    conn.close()
-    return user
-
-def insert_user(username, hashed_password):
+def insert_user(username, hashed_password,role="user"):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, hashed_password))
+    cursor.execute("INSERT INTO users (username, password, role) VALUES (%s, %s, %s)", (username, hashed_password, role))
     conn.commit()
     cursor.close()
     conn.close()
@@ -43,3 +35,10 @@ def get_user_by_username(username):
     cursor.close()
     conn.close()
     return user
+
+
+if __name__ == "__main__":
+    update_user_password("admin", generate_password_hash("admin123"))
+    print("Admin password updated successfully.")
+
+
