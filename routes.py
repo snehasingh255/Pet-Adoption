@@ -143,6 +143,21 @@ def delete_pet():
     flash("Pet deleted successfully!", "success")
     return redirect(url_for("admin"))
 
+@app.route("/admin/requests")
+def view_pet_requests():
+    if session.get("role") != "admin":
+        flash("Access denied: Admins only", "error")
+        return redirect(url_for("login"))
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM pet_requests WHERE status = 'pending'")
+    requests = cursor.fetchall()
+    cursor.close()
+    conn.close()
+
+    return render_template("admin_pet_requests.html", requests=requests)
+
 @app.route("/about")
 def about():
     return render_template("about.html")
@@ -244,11 +259,62 @@ def resetpass():
             return redirect(url_for('resetpass'))
     return render_template("resetpass.html")
 
+@app.route("/requestpet", methods=["GET", "POST"])
+def request_pet():
+    if request.method == "POST":
+        pet_name = request.form["pet_name"]
+        pet_age = request.form["pet_age"]
+        pet_category = request.form.get("pet_category")
+        pet_breed = request.form["pet_breed"]
+        pet_weight = request.form["pet_weight"]
+        pet_image = request.files["pet_image"]
+        username = session.get("loggedInUser", "anonymous")
+
+        image_path = os.path.join("static/uploads", pet_image.filename)
+        pet_image.save(image_path)
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("""
+            INSERT INTO pet_requests (username, name, age, breed, weight, image_path, category)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+        """, (username, pet_name, pet_age, pet_breed, pet_weight, image_path, pet_category))
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        flash("Pet request submitted to admin!", "success")
+        return redirect(url_for("home"))
+    return render_template("requestpet.html")
+
+@app.route("/admin/accept_request/<int:request_id>", methods=["POST"])
+def accept_pet_request(request_id):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("SELECT * FROM pet_requests WHERE id = %s", (request_id,))
+    pet = cursor.fetchone()
+
+    if pet:
+        cursor.execute("""
+            INSERT INTO pets (name, age, breed, weight, image_path, status, category)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+        """, (pet["name"], pet["age"], pet["breed"], pet["weight"], pet["image_path"], "available", pet["category"]))
+
+        cursor.execute("UPDATE pet_requests SET status = 'accepted' WHERE id = %s", (request_id,))
+        conn.commit()
+
+    cursor.close()
+    conn.close()
+    flash("Pet request accepted and added to adoption list!", "success")
+    return redirect(url_for("view_pet_requests"))
+
 @app.route("/logout")
 def logout():
     session.clear()
     flash("You have been logged out.", "message")
     return redirect(url_for("login"))
+
 
 if __name__ == '__main__':
     app.run(debug=True)

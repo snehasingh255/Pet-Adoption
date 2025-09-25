@@ -2,17 +2,18 @@
 {% block content %}
 <section class="hero-section">
   <div class="nav-container">
-    <nav>
-      <div class="logo">
-        <img src="{{ url_for('static', filename='img/adoptlogo.jpg') }}" alt="Paw Connect Logo">
-      </div>
-      <ul class="nav-links">
-        <li><a href="{{ url_for('home') }}">Home</a></li>
-        <li><a href="{{ url_for('about') }}">About</a></li>
-        <li><a href="{{ url_for('profile') }}">Profile</a></li>
-        <li><a href="{{ url_for('login') }}">Login</a></li>
-      </ul>
-    </nav>
+    <nav class="navbar">
+  <div class="logo">
+    <img src="{{ url_for('static', filename='img/adoptlogo.jpg') }}" alt="Paw Connect Logo">
+  </div>
+  <ul class="nav-links">
+    <li><a href="{{ url_for('home') }}">Home</a></li>
+    <li><a href="{{ url_for('about') }}">About</a></li>
+    <li><a href="{{ url_for('profile') }}">Profile</a></li>
+    <li><a href="{{ url_for('login') }}">Login</a></li>
+  </ul>
+</nav>
+
   </div>
 
   <div class="hero-text">

@@ -53,6 +53,16 @@
             <!-- Left Column: Cards -->
             <div class="col-lg-4">
                 <div class="row g-4">
+                  <h2>Pending Pet Requests</h2>
+                    {% for pet in requests %}
+                      <div class="request-card">
+                        <p><strong>{{ pet.name }}</strong> ({{ pet.category }}) requested by {{ pet.username }}</p>
+                        <img src="{{ url_for('static', filename='uploads/' + pet.image_path.split('/')[-1]) }}" width="150">
+                        <form action="{{ url_for('accept_pet_request', request_id=pet.id) }}" method="post">
+                          <button type="submit">Accept</button>
+                        </form>
+                      </div>
+                    {% endfor %}
                     <div class="col-12">
                         <div class="card shadow-sm">
                             <div class="card-body">

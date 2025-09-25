@@ -2,22 +2,27 @@ html, body {
   margin: 0;
   padding: 0;
 }
-.logo img {
-  height: 80px;
-  margin: 0;
-  padding: 0;
-}
-
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 10px 5%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.logo img {
+  margin-top: 20px;
+  height: 80px;
 }
 
 .nav-links {
-  list-style: none;
   display: flex;
   gap: 20px;
+  list-style: none;
   margin: 0;
   padding: 0;
 }
@@ -26,6 +31,7 @@ html, body {
   text-decoration: none;
   color: #333;
   font-weight: 500;
+  padding: 8px 12px;
 }
 
 .nav-links li a:hover {
@@ -34,20 +40,19 @@ html, body {
 }
 
 .hero-section {
+  height: 100vh;
   background-image: url("/static/img/bg.jpg");
-  background-size: cover;
-  background-position: center;
+  background-size: contain;
   background-repeat: no-repeat;
-  color: rgb(21, 7, 57);
-  padding: 80px 5%;
-  text-align: left;
-}
-
-.hero-text {
-  max-width: 600px;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 4%;
 }
 
 .hero-text h1 {
+  max-width: 600px;
   font-size: 48px;
   font-weight: bold;
   font-family: "cursive", Georgia;
