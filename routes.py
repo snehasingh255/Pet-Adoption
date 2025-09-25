@@ -7,6 +7,8 @@ import db
 
 app = Flask(__name__)
 
+app.secret_key = 'adoptwebsite2525'
+
 db_config = {
     'host': 'localhost',
     'user': 'root',
@@ -67,7 +69,7 @@ def admin():
 def add_pet():
     pet_name = request.form["pet_name"]
     pet_age = request.form["pet_age"]
-    pet_type = request.form["pet_type"]
+    pet_category = request.form.get("pet_category")
     pet_breed = request.form["pet_breed"]
     pet_weight = request.form["pet_weight"]
     pet_image = request.files["pet_image"]
@@ -79,9 +81,9 @@ def add_pet():
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("""
-        INSERT INTO pets (name, age, type, breed, weight, image_path, status)
-        VALUES (%s, %s, %s, %s, %s, %s, %s)
-    """, (pet_name, pet_age, pet_type, pet_breed, pet_weight, image_path, "available"))
+    INSERT INTO pets (name, age,breed, weight, image_path, status, category)
+    VALUES (%s, %s, %s, %s, %s, %s, %s)
+""", (pet_name, pet_age, pet_breed, pet_weight, image_path, "available", pet_category))
     conn.commit()
     cursor.close()
     conn.close()
@@ -145,21 +147,24 @@ def delete_pet():
 def about():
     return render_template("about.html")
 
-@app.route("/cat")
-def cat():
-    return render_template("cat.html")
+@app.route("/category/<category_name>")
+def show_category(category_name):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
 
-@app.route("/dog")
-def dog():
-    return render_template("dog.html")
+    cursor.execute("SELECT * FROM pets WHERE category = %s AND status = 'available'", (category_name,))
+    pets = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return render_template("category.html", pets=pets, category_name=category_name.capitalize())
 
 @app.before_request
 def set_logged_user():
     username = os.environ.get("LOGGED_IN_USER")
     if username:
         session["loggedInUser"] = username
-
-app.secret_key = 'adoptwebsite2525'
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -238,6 +243,12 @@ def resetpass():
             conn.close()
             return redirect(url_for('resetpass'))
     return render_template("resetpass.html")
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    flash("You have been logged out.", "message")
+    return redirect(url_for("login"))
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,0 +1,15 @@
+<h2>Available Pets for Adoption</h2>
+
+{% for category, pets in categories.items() %}
+  <h3>{{ category }}</h3>
+  <div class="pet-list">
+    {% for pet in pets %}
+      <div class="pet-card">
+        <img src="{{ url_for('static', filename='uploads/' ~ pet.image_path) }}" alt="{{ pet.name }}">
+        <h4>{{ pet.name }}</h4>
+        <p>{{ pet.age }} • {{ pet.breed }}</p>
+        <a href="{{ url_for('adopt_pet', pet_id=pet.id) }}" class="btn">Adopt Me</a>
+      </div>
+    {% endfor %}
+  </div>
+{% endfor %}

@@ -15,8 +15,9 @@ VALUES ('sneha', 'scrypt:32768:8:1$2XnVq8iKYyIkXQrG$e5b0cc5b2dfbd3175e34fdb1d034
 INSERT INTO users (username, password, role,email)
 VALUES ('bhagyashree', 'scrypt:32768:8:1$ODyqZktqoC60aLWG$c32a2c8575ea499f3cacdbdf2e34aaaa2978ce21266acba638cc2a93161d1053184c8ee3a05b5191850780241e006da184335e1158716b4766efb8bea8bfc762', 'user','bhagyashrisangve@gmail.com');
 
-select * from users;
+select * from pets;
 
+DESCRIBE users;
 CREATE TABLE pets (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100),
@@ -24,7 +25,31 @@ CREATE TABLE pets (
     breed VARCHAR(100),
     category ENUM('cat', 'dog'),
     status VARCHAR(50),
-    image_url TEXT
+    image_path VARCHAR(255);
+);
+ALTER TABLE pets ADD COLUMN weight FLOAT;
+
+
+
+CREATE TABLE pet_requests (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    name VARCHAR(100),
+    age INT,
+    category VARCHAR(50),
+    breed VARCHAR(100),
+    weight FLOAT,
+    image_path VARCHAR(255),
+    status VARCHAR(20) DEFAULT 'pending',
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+CREATE TABLE adoptions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    pet_id INT NOT NULL,
+    user_id INT NOT NULL,
+    adopted_on DATE,
+    FOREIGN KEY (pet_id) REFERENCES pets(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 CREATE TABLE adoption_requests (

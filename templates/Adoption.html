@@ -1,42 +1,91 @@
 {% extends "layout.html" %}
 {% block content %}
-<section class="bg">
-    <div id="navbars">
-        <nav>
-            <div class="logo">
-                <img src="{{ url_for('static', filename='img/adoptlogo.jpg') }}" alt="Adopt A Buddy logo">
+<section class="hero-section">
+  <div class="nav-container">
+    <nav>
+      <div class="logo">
+        <img src="{{ url_for('static', filename='img/adoptlogo.jpg') }}" alt="Paw Connect Logo">
+      </div>
+      <ul class="nav-links">
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('about') }}">About</a></li>
+        <li><a href="{{ url_for('profile') }}">Profile</a></li>
+        <li><a href="{{ url_for('login') }}">Login</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="hero-text">
+    <h1>ADOPT A BUDDY!!</h1>
+    <p>You can make a difference in their lives.</p>
+    <h2>OPEN YOUR HEART AND YOUR HOME.</h2>
+    <p>For a pet who needs help,<br>they would show their appreciation to you for the rest of their lives.</p>
+  </div>
+</section>
+
+<section class="category-section">
+    <h2>READY TO WELCOME A NEW BUDDY HOME?</h2>
+    <p>Adopt a new pet.</p>
+    <div class="category-grid">
+        <div class="category-card">
+            <a href="{{ url_for('show_category', category_name='Cat') }}">
+                <img src="{{ url_for('static', filename='img/cat.jpg') }}" alt="Cat">
+            </a>
+            <p>Cat</p>
+        </div>
+        <div class="category-card">
+            <a href="{{ url_for('show_category', category_name='Dog') }}">
+                <img src="{{ url_for('static', filename='img/dog.jpg') }}" alt="Dog">
+            </a>
+            <p>Dog</p>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Contact Us</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Address</h4>
+                            <p>123 PetConnect,Finolex Chowk <br>Pune-411057</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>Phone</h4>
+                            <p>+1 (555) 123-4567</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <p>hello@adoptpet.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h4>Hours</h4>
+                            <p>Mon-Fri: 9AM-8PM<br>Sat-Sun: 10AM-6PM</p>
+                        </div>
+                    </div>
+                </div>
+                <form class="contact-form" onsubmit="submitContactForm(event)">
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="email" placeholder="Your Email" required>
+                    <input type="text" placeholder="Subject" required>
+                    <textarea placeholder="Your Message" rows="5" required></textarea>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
             </div>
-            <ul>
-                <li class="navig"><a href="{{ url_for('home') }}">Home</a></li>
-                <li class="navig"><a href="{{ url_for('about') }}">About</a></li>
-                <li class="navig"><a href="{{ url_for('profile') }}">Profile</a></li>
-                <li class="navig"><a href="{{ url_for('login') }}">Login</a></li>
-            </ul>
-        </nav>
-    </div>
+        </div>
+    </section>
 
-    <div class="greet">
-        <h1>ADOPT A BUDDY!!</h1>
-        <h2>
-            You can make a difference in their lives.<br><br>
-            <b>OPEN YOUR HEART AND YOUR HOME.</b><br>
-            For a pet who needs help,<br>
-            they would show their appreciation<br>
-            to you for the rest of their lives.
-        </h2>
-        <button id="ani"><a href="#animals">Let's Adopt</a></button>
-    </div>
-</section>
-
-<section id="animals">
-    <h2><b>READY TO WELCOME A NEW BUDDY HOME?</b><br><br>Adopt a new pet.</h2>
-    <div class="animal">
-        <img src="{{ url_for('static', filename='img/cat.jpg') }}" alt="Cat" onclick="window.location.href='{{ url_for('cat')}}';">
-        <p>Smart Cats</p>
-    </div>
-    <div class="animal">
-        <img src="{{ url_for('static', filename='img/dog.jpg') }}" alt="Dog" onclick="window.location.href='{{ url_for('dog') }}';">
-        <p>Loyal Dogs</p>
-    </div>
-</section>
 {% endblock %}

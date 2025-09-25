@@ -1,0 +1,11 @@
+{% for pet in requests %}
+  <div class="card mb-3">
+    <img src="{{ url_for('static', filename='uploads/' ~ pet.image_path.split('/')[-1]) }}" class="card-img-top" alt="Pet Image">
+    <div class="card-body">
+      <h5>{{ pet.name }} ({{ pet.category }})</h5>
+      <p>Breed: {{ pet.breed }} | Age: {{ pet.age }} | Weight: {{ pet.weight }}kg</p>
+      <a href="{{ url_for('approve_pet', request_id=pet.id) }}" class="btn btn-success btn-sm">Approve</a>
+      <a href="{{ url_for('reject_pet', request_id=pet.id) }}" class="btn btn-danger btn-sm">Reject</a>
+    </div>
+  </div>
+{% endfor %}
