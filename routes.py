@@ -56,6 +56,10 @@ def admin():
         return redirect(url_for("home"))
 
     finally:
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("SELECT id, name, breed FROM pets")
+        pets = cursor.fetchall()
         cursor.close()
         conn.close()
     return render_template("admindashboard.html",
@@ -128,6 +132,7 @@ def update_pet():
     conn.close()
     flash("Pet updated successfully!", "success")
     return redirect(url_for("admin"))
+
 
 @app.route("/deletepet", methods=["POST"])
 def delete_pet():
